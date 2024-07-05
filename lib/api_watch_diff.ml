@@ -126,6 +126,20 @@ let compare_values ~reference ~current =
       else acc)
     ref_values diffs
 
+let _diff_string (diffs : diff list) : string list =
+  diffs |>
+  List.map (fun diff -> match diff with
+      | Any -> raise (Failure "TODO")
+      | Value (name, change) -> (match change with
+          | Added _item ->
+            (* TODO use Printtyp.value_description *)
+            Printf.sprintf "%s" name
+          | Removed _item -> raise (Failure "TODO")
+          | Modified (_reference, _modified) -> raise (Failure "TODO")
+        )
+    )
+   (* iterate  *)
+
 let diff_interface ~reference ~current =
   let value_diffs = compare_values ~reference ~current in
   if value_diffs = [] then
